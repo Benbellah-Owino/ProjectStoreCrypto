@@ -2,7 +2,7 @@
   import ItemTile from "$lib/ui_components/product_components/item_tile.svelte";
   import type { Item } from "$lib/interfaces/Item";
   export let items_array: Item[];
-  console.log(items_array);
+ 
 </script>
 
 <main

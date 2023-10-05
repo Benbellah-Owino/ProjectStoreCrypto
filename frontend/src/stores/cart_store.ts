@@ -1,4 +1,6 @@
 import { writable, type Writable } from "svelte/store";
-import type { Item } from "$lib/interfaces/Item";
+import type { CartItemType } from "$lib/interfaces/Item";
 
-export const cart_array: Writable<Item[]> = writable([]);
+export const cart_array: Writable<CartItemType[]> = writable([]);
+
+export const cart_total: Writable<number> = writable(0);

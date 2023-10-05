@@ -1,6 +1,10 @@
 <script lang="ts">
-  import { items } from "../../../stores/item_stores";
+  import { cart_array, cart_total } from "../../../stores/cart_store";
   import type { Item } from "$lib/interfaces/Item";
+  import type { CartItemType } from "$lib/interfaces/Item";
+  import { fade } from "svelte/transition";
+  import { flip } from "svelte/animate";
+
   export let item: Item;
 
   let delivery: number = 40;
@@ -10,6 +14,20 @@
 
   function buyItem() {
     console.log(`Bought ${quantity} items at ${total}`);
+    let item_pending: CartItemType = {
+      quantity: 0,
+      total_price: 0,
+    };
+
+    for (const key in item) {
+      if (key != "number_in_stock") {
+        item_pending[key] = item[key];
+      }
+    }
+    item_pending.quantity = quantity;
+    item_pending.total_price = total;
+    cart_array.update((cart) => (cart = [...cart, item_pending]));
+    $cart_total += total;
   }
 </script>
 

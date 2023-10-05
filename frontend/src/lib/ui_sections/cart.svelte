@@ -1,5 +1,8 @@
 <script lang="ts">
   import CartItem from "$lib/ui_components/product_components/cart_item.svelte";
+  import { flip } from "svelte/animate";
+  import { cart_array, cart_total } from "../../stores/cart_store";
+  import { draw, fade, fly } from "svelte/transition";
 
   let confirmBuy: boolean = false;
 
@@ -25,14 +28,15 @@
 <main
   class="main w-6/12 h-2/3 absolute right-2 top-2 z-50 flex flex-col justify-center items-center bg-slate-50 border border-black shadow-lg shadow-green-400"
   id="main"
+  in:fly
 >
-  <CartItem />
-
-  <CartItem />
+  {#each $cart_array as cart_item (cart_item.id)}
+    <CartItem {cart_item} />
+  {/each}
 
   <div class="total_cost w-11/12 h-16 flex justify-around items-center">
     <label for="price">Total Cost:</label>
-    <h3 class="total_cost_dollars" id="total_cost_dollars">$24</h3>
+    <h3 class="total_cost_dollars" id="total_cost_dollars">${$cart_total}</h3>
     <h3 class="total_cost_selected" id="total_cost_selected">
       0.12 <span class="symbol">ETH</span>
     </h3>
