@@ -1,8 +1,25 @@
 <script lang="ts">
   import CartItem from "$lib/ui_components/product_components/cart_item.svelte";
-  import { flip } from "svelte/animate";
   import { cart_array, cart_total } from "../../stores/cart_store";
+  import { cart_button, cart_on } from "../../stores/state_store";
   import { draw, fade, fly } from "svelte/transition";
+  // if(document instanceof HTMLElement){
+
+  // }
+
+  document.addEventListener("click", (e) => {
+    let self: HTMLElement | null = document.getElementById("cart");
+
+    if (self instanceof HTMLElement && $cart_button instanceof HTMLElement) {
+      if (
+        !self.contains(e.target) &&
+        $cart_on === true &&
+        !$cart_button.contains(e.target)
+      ) {
+        $cart_on = false;
+      }
+    }
+  });
 
   let confirmBuy: boolean = false;
 
@@ -27,8 +44,9 @@
 
 <main
   class="main w-6/12 h-2/3 absolute right-2 top-2 z-50 flex flex-col justify-center items-center bg-slate-50 border border-black shadow-lg shadow-green-400"
-  id="main"
+  id="cart"
   in:fly
+  out:fade
 >
   {#each $cart_array as cart_item (cart_item.id)}
     <CartItem {cart_item} />
